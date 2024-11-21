@@ -1,7 +1,7 @@
 // src/controllers/cms/MakananController.ts
 import { Request, Response } from "express";
 import { PrismaClient } from "@prisma/client";
-import { getCurrentWIBDate } from "../../helper/timeHelper";
+import { getCurrentWIBDate } from "../../helpers/timeHelper";
 
 const prisma = new PrismaClient();
 

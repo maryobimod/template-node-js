@@ -2,7 +2,6 @@
 
 import express, { Request, Response } from "express";
 import bodyParser from "body-parser";
-import path from "path";
 import apiRoutes from "./routes/api";
 import authRoutes from "./routes/auth";
 

@@ -1,4 +1,4 @@
-// src/helper/timeHelper.ts
+// src/helpers/timeHelper.ts
 
 import moment from "moment-timezone";
 

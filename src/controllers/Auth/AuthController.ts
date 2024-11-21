@@ -3,7 +3,7 @@ import { Request, Response } from "express";
 import jwt from "jsonwebtoken";
 import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcryptjs";
-import { getCurrentWIBDate } from "../../helper/timeHelper";
+import { getCurrentWIBDate } from "../../helpers/timeHelper";
 
 // Inisialisasi Prisma Client
 const prisma = new PrismaClient();
