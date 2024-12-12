@@ -1,0 +1,37 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+datasource satria {
+  provider = "sqlserver"
+  url      = env("DATABASE_URL_SATRIA")
+}
+
+generator satriaClient {
+  provider = "prisma-client-js"
+  output   = "../generated/satria-client"
+}
+
+model Makanan {
+  id          Int       @id @default(autoincrement())
+  nama        String                
+  deskripsi   String?             
+  harga       Decimal           
+  stok        Int
+  created_at  DateTime
+  updated_at  DateTime
+
+  @@map("makanan")
+}
+
+model User {
+  id          Int       @id @default(autoincrement())
+  username    String    @unique
+  password    String    
+  created_at  DateTime
+  updated_at  DateTime
+
+  @@map("users_node")
+}

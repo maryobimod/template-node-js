@@ -1,12 +1,12 @@
 // src/controllers/Auth/AuthController.ts
 import { Request, Response } from "express";
 import jwt from "jsonwebtoken";
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient as SatriaClient } from "../../../generated/satria-client";
 import bcrypt from "bcryptjs";
 import { getCurrentWIBDate } from "../../helpers/timeHelper";
 
 // Inisialisasi Prisma Client
-const prisma = new PrismaClient();
+const prisma = new SatriaClient();
 
 // Secret key untuk JWT
 const JWT_SECRET = "secret-key";

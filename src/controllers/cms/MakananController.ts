@@ -1,9 +1,9 @@
 // src/controllers/cms/MakananController.ts
 import { Request, Response } from "express";
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient as SatriaClient } from "../../../generated/satria-client";
 import { getCurrentWIBDate } from "../../helpers/timeHelper";
 
-const prisma = new PrismaClient();
+const prisma = new SatriaClient();
 
 // View all makanan
 export const getAllMakanan = async (
