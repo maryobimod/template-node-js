@@ -1,9 +1,7 @@
 // src/controllers/cms/MakananController.ts
 import { Request, Response } from "express";
-import { PrismaClient as SatriaClient } from "../../../generated/satria-client";
+import { Makanan } from "../../models/Table/Satria/Makanan";
 import { getCurrentWIBDate } from "../../helpers/timeHelper";
-
-const prisma = new SatriaClient();
 
 // View all makanan
 export const getAllMakanan = async (
@@ -11,7 +9,7 @@ export const getAllMakanan = async (
   res: Response
 ): Promise<void> => {
   try {
-    const makanan = await prisma.makanan.findMany();
+    const makanan = await Makanan.findMany();
     res.json(makanan);
   } catch (err) {
     res.status(500).json({ error: err });
@@ -25,7 +23,7 @@ export const getMakananById = async (
 ): Promise<void> => {
   const { id } = req.params;
   try {
-    const makanan = await prisma.makanan.findUnique({
+    const makanan = await Makanan.findUnique({
       where: { id: Number(id) },
     });
     if (!makanan) {
@@ -45,7 +43,7 @@ export const createMakanan = async (
 ): Promise<void> => {
   const { nama, deskripsi, harga, stok } = req.body;
   try {
-    const newMakanan = await prisma.makanan.create({
+    const newMakanan = await Makanan.create({
       data: {
         nama,
         deskripsi,
@@ -71,7 +69,7 @@ export const updateMakanan = async (
   const { id } = req.params;
   const { nama, deskripsi, harga, stok } = req.body;
   try {
-    const updatedMakanan = await prisma.makanan.update({
+    const updatedMakanan = await Makanan.update({
       where: { id: Number(id) },
       data: {
         nama,
@@ -94,7 +92,7 @@ export const deleteMakanan = async (
 ): Promise<void> => {
   const { id } = req.params;
   try {
-    const deletedMakanan = await prisma.makanan.delete({
+    const deletedMakanan = await Makanan.delete({
       where: { id: Number(id) },
     });
     if (!deletedMakanan) {

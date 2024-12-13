@@ -1,15 +1,20 @@
 // src/controllers/Auth/AuthController.ts
 import { Request, Response } from "express";
 import jwt from "jsonwebtoken";
-import { PrismaClient as SatriaClient } from "../../../generated/satria-client";
+import { User } from "../../models/Table/Satria/User";
 import bcrypt from "bcryptjs";
 import { getCurrentWIBDate } from "../../helpers/timeHelper";
+import dotenv from "dotenv";
 
-// Inisialisasi Prisma Client
-const prisma = new SatriaClient();
+// Muat file .env
+dotenv.config();
 
 // Secret key untuk JWT
-const JWT_SECRET = "secret-key";
+const JWT_SECRET = process.env.JWT_SECRET;
+
+if (!JWT_SECRET) {
+  throw new Error("JWT_SECRET is not defined in the environment variables");
+}
 
 // Register user baru
 export const registerUser = async (
@@ -20,7 +25,7 @@ export const registerUser = async (
 
   try {
     // Cek apakah username sudah ada di database
-    const existingUser = await prisma.user.findUnique({
+    const existingUser = await User.findUnique({
       where: {
         username,
       },
@@ -34,7 +39,7 @@ export const registerUser = async (
     const hashedPassword = await bcrypt.hash(password, 10);
 
     // Insert user baru ke dalam database
-    const newUser = await prisma.user.create({
+    const newUser = await User.create({
       data: {
         username,
         password: hashedPassword,
@@ -58,7 +63,7 @@ export const loginUser = async (req: Request, res: Response): Promise<void> => {
 
   try {
     // Cari user berdasarkan username
-    const user = await prisma.user.findUnique({
+    const user = await User.findUnique({
       where: { username },
     });
 
