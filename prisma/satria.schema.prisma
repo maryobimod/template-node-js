@@ -11,7 +11,7 @@ datasource satria {
 
 generator satriaClient {
   provider = "prisma-client-js"
-  output   = "../generated/satria-client"
+  output   = "../prisma/generated/satria-client"
 }
 
 model Makanan {

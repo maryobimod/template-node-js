@@ -1,6 +1,6 @@
 // src/models/Table/Satria/Makanan.ts
 
-import { PrismaClient as SatriaClient } from "../../../../generated/satria-client";
+import { PrismaClient as SatriaClient } from "../../../../prisma/generated/satria-client";
 
 // Inisialisasi Prisma Client
 const prisma = new SatriaClient();
