@@ -17,7 +17,7 @@ app.use("/api", apiRoutes);
 // Kalo halaman gak ditemuin
 app.get("*", (req: Request, res: Response) => {
   res.status(404).json({
-    status: "error",
+    success: false,
     message: "Halaman tidak ditemukan. Silakan periksa URL Anda.",
   });
 });
