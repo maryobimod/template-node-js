@@ -32,7 +32,9 @@ export const registerUser = async (
     });
 
     if (existingUser) {
-      return res.status(400).json({ error: "Username already exists" });
+      return res
+        .status(400)
+        .json({ success: false, message: "Username already exists" });
     }
 
     // Hash password
@@ -48,12 +50,16 @@ export const registerUser = async (
       },
     });
 
-    return res
-      .status(201)
-      .json({ message: "User registered successfully", newUser });
+    return res.status(201).json({
+      success: true,
+      message: "User registered successfully",
+      data: { newUser },
+    });
   } catch (err: any) {
     console.error(err);
-    return res.status(500).json({ error: "Internal server error" });
+    return res
+      .status(500)
+      .json({ success: false, message: "Internal server error" });
   }
 };
 
@@ -69,7 +75,7 @@ export const loginUser = async (req: Request, res: Response): Promise<void> => {
 
     // Jika user tidak ditemukan
     if (!user) {
-      res.status(401).json({ error: "Invalid credentials" });
+      res.status(401).json({ success: false, message: "Invalid credentials" });
       return;
     }
 
@@ -78,7 +84,7 @@ export const loginUser = async (req: Request, res: Response): Promise<void> => {
 
     // Jika password tidak valid
     if (!isValidPassword) {
-      res.status(401).json({ error: "Invalid credentials" });
+      res.status(401).json({ success: false, message: "Invalid credentials" });
       return;
     }
 
@@ -89,9 +95,11 @@ export const loginUser = async (req: Request, res: Response): Promise<void> => {
       { expiresIn: "24h" } // Set token expire time
     );
 
-    res.json({ message: "Login successful", token });
+    res
+      .status(200)
+      .json({ success: true, message: "Login successful", data: { token } });
   } catch (err) {
     console.error(err);
-    res.status(500).json({ error: "Error during login" });
+    res.status(500).json({ success: false, error: "Error during login" });
   }
 };

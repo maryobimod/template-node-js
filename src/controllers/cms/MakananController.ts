@@ -10,9 +10,15 @@ export const getAllMakanan = async (
 ): Promise<void> => {
   try {
     const makanan = await Makanan.findMany();
-    res.json(makanan);
+    res.status(200).json({
+      success: true,
+      message: "Berhasil mengambil data makanan",
+      data: { makanan },
+    });
   } catch (err) {
-    res.status(500).json({ error: err });
+    res
+      .status(500)
+      .json({ success: false, message: "Error mengambil data makanan" });
   }
 };
 
@@ -27,12 +33,20 @@ export const getMakananById = async (
       where: { id: Number(id) },
     });
     if (!makanan) {
-      res.status(404).json({ error: "Makanan tidak ditemukan" });
+      res
+        .status(404)
+        .json({ success: false, message: "Makanan tidak ditemukan" });
     } else {
-      res.json(makanan);
+      res.status(200).json({
+        success: true,
+        message: "Berhasil mengambil data makanan",
+        data: { makanan },
+      });
     }
   } catch (err) {
-    res.status(500).json({ error: "Error mengambil data makanan" });
+    res
+      .status(500)
+      .json({ success: false, message: "Error mengambil data makanan" });
   }
 };
 
@@ -53,11 +67,15 @@ export const createMakanan = async (
         updated_at: getCurrentWIBDate(),
       },
     });
-    res
-      .status(201)
-      .json({ message: "Makanan berhasil ditambahkan", data: newMakanan });
+    res.status(201).json({
+      success: true,
+      message: "Makanan berhasil ditambahkan",
+      data: { newMakanan },
+    });
   } catch (err) {
-    res.status(500).json({ error: "Error menambahkan data makanan" });
+    res
+      .status(500)
+      .json({ success: false, message: "Error menambahkan data makanan" });
   }
 };
 
@@ -79,9 +97,15 @@ export const updateMakanan = async (
         updated_at: getCurrentWIBDate(),
       },
     });
-    res.json({ message: "Makanan berhasil diupdate", data: updatedMakanan });
+    res.status(201).json({
+      success: true,
+      message: "Makanan berhasil diupdate",
+      data: { updatedMakanan },
+    });
   } catch (err) {
-    res.status(500).json({ error: "Error mengupdate data makanan" });
+    res
+      .status(500)
+      .json({ success: false, message: "Error mengupdate data makanan" });
   }
 };
 
@@ -96,11 +120,18 @@ export const deleteMakanan = async (
       where: { id: Number(id) },
     });
     if (!deletedMakanan) {
-      res.status(404).json({ error: "Makanan tidak ditemukan" });
+      res
+        .status(404)
+        .json({ success: false, message: "Makanan tidak ditemukan" });
     } else {
-      res.json({ message: "Makanan berhasil dihapus" });
+      res.status(201).json({
+        success: true,
+        message: "Makanan berhasil dihapus",
+      });
     }
   } catch (err) {
-    res.status(500).json({ error: "Error menghapus data makanan" });
+    res
+      .status(500)
+      .json({ success: false, message: "Error menghapus data makanan" });
   }
 };

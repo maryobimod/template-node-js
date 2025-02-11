@@ -22,7 +22,7 @@ export const authenticateJWT = (
   const token = authHeader?.split(" ")[1];
 
   if (!token) {
-    res.status(403).json({ error: "Access denied" });
+    res.status(403).json({ success: false, message: "Access denied" });
     return;
   }
 
@@ -31,6 +31,6 @@ export const authenticateJWT = (
     req.user = user;
     next();
   } catch (err) {
-    res.status(401).json({ error: "Invalid token" });
+    res.status(401).json({ success: false, message: "Invalid token" });
   }
 };
