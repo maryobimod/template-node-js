@@ -95,9 +95,11 @@ export const loginUser = async (req: Request, res: Response): Promise<void> => {
       { expiresIn: "24h" } // Set token expire time
     );
 
-    res
-      .status(200)
-      .json({ success: true, message: "Login successful", data: { token } });
+    res.json({
+      success: true,
+      message: "Login successful",
+      data: { user, access_token: token, token_type: "Bearer" },
+    });
   } catch (err) {
     console.error(err);
     res.status(500).json({ success: false, error: "Error during login" });

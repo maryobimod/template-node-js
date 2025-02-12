@@ -9,11 +9,24 @@ export const getAllMakanan = async (
   res: Response
 ): Promise<void> => {
   try {
-    const makanan = await Makanan.findMany();
+    const page = parseInt(req.query.page as string, 10) || 1;
+    const size = parseInt(req.query.size as string, 10) || 10;
+    const skip = (page - 1) * size;
+    const take = size;
+
+    const makanan = await Makanan.findMany({
+      take,
+      skip,
+    });
     res.status(200).json({
       success: true,
       message: "Berhasil mengambil data makanan",
-      data: { makanan },
+      data: {
+        makanan,
+        totalItems: makanan.length,
+        totalPages: Math.ceil(makanan.length / size),
+        currentPage: page,
+      },
     });
   } catch (err) {
     res
