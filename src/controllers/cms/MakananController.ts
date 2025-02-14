@@ -9,23 +9,56 @@ export const getAllMakanan = async (
   res: Response
 ): Promise<void> => {
   try {
-    const page = parseInt(req.query.page as string, 10) || 1;
-    const size = parseInt(req.query.size as string, 10) || 10;
-    const skip = (page - 1) * size;
-    const take = size;
+    const {
+      page = "1",
+      limit = "10",
+      search = "",
+      sort = "nama",
+      order = "asc",
+    } = req.query;
 
-    const makanan = await Makanan.findMany({
-      take,
+    const pageNumber = parseInt(page as string, 10);
+    const pageSize = parseInt(limit as string, 10);
+    const skip = (pageNumber - 1) * pageSize;
+    const validSortFields = ["nama", "deskripsi", "harga", "stok"];
+    const sortField = validSortFields.includes(sort as string)
+      ? (sort as string)
+      : "nama";
+    const sortOrder = order === "desc" ? "desc" : "asc";
+
+    const makananData = await Makanan.findMany({
+      where: {
+        OR: [
+          { nama: { contains: search as string } },
+          { deskripsi: { contains: search as string } },
+        ],
+      },
+      orderBy: {
+        [sortField]: sortOrder,
+      },
       skip,
+      take: pageSize,
     });
+
+    const totalItems = await Makanan.count({
+      where: {
+        OR: [
+          { nama: { contains: search as string } },
+          { deskripsi: { contains: search as string } },
+        ],
+      },
+    });
+
+    const totalPages = Math.ceil(totalItems / pageSize);
+
     res.status(200).json({
       success: true,
       message: "Berhasil mengambil data makanan",
       data: {
-        makanan,
-        totalItems: makanan.length,
-        totalPages: Math.ceil(makanan.length / size),
-        currentPage: page,
+        data: makananData,
+        totalPages,
+        currentPage: pageNumber,
+        totalItems,
       },
     });
   } catch (err) {

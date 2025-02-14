@@ -4,9 +4,17 @@ import express, { Request, Response } from "express";
 import bodyParser from "body-parser";
 import apiRoutes from "./routes/api";
 import authRoutes from "./routes/auth";
+import cors from "cors";
 
 const app = express();
 app.use(bodyParser.json());
+
+// Konfigurasi CORS
+const corsOptions = {
+  origin: "*", // Mengizinkan semua origin
+};
+
+app.use(cors(corsOptions));
 
 // Tambahkan route auth kalau pengen login
 app.use("/auth", authRoutes);
